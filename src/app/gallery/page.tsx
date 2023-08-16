@@ -1,49 +1,30 @@
-"use client";
+import CloudImage from "./cloud-image";
+import UploadButton from "./upload-button";
+import cloudinary from "cloudinary";
 
-import { Button } from "@/components/ui/button";
-import { CldUploadButton } from "next-cloudinary";
-
-import { useState } from "react";
-
-type UploadResult = {
-  info: {
-    public_id: string;
-  };
-  event: "success";
+type SearchResult = {
+  public_id: string;
 };
 
-type Props = {};
+const Gallery = async () => {
+  const result = (await cloudinary.v2.search
+    .expression("resource_type:image")
+    .sort_by("created_at", "desc")
+    .max_results(5)
+    .execute()) as { resources: SearchResult[] };
 
-const Gallery = (props: Props) => {
-  const [images, setImagesId] = useState<string[]>([]);
+  console.log(result);
 
   return (
     <section className="h-full px-4 py-6 lg:px-8">
-      <div className="flex text-4xl justify-between">
-        <h1 className="font-bold">Gallery</h1>
-        <Button asChild>
-          <div>
-            <svg
-              className="mr-2 h-4 w-4"
-              width="15"
-              height="15"
-              viewBox="0 0 15 15"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg">
-              <path
-                d="M7.81825 1.18188C7.64251 1.00615 7.35759 1.00615 7.18185 1.18188L4.18185 4.18188C4.00611 4.35762 4.00611 4.64254 4.18185 4.81828C4.35759 4.99401 4.64251 4.99401 4.81825 4.81828L7.05005 2.58648V9.49996C7.05005 9.74849 7.25152 9.94996 7.50005 9.94996C7.74858 9.94996 7.95005 9.74849 7.95005 9.49996V2.58648L10.1819 4.81828C10.3576 4.99401 10.6425 4.99401 10.8182 4.81828C10.994 4.64254 10.994 4.35762 10.8182 4.18188L7.81825 1.18188ZM2.5 9.99997C2.77614 9.99997 3 10.2238 3 10.5V12C3 12.5538 3.44565 13 3.99635 13H11.0012C11.5529 13 12 12.5528 12 12V10.5C12 10.2238 12.2239 9.99997 12.5 9.99997C12.7761 9.99997 13 10.2238 13 10.5V12C13 13.104 12.1062 14 11.0012 14H3.99635C2.89019 14 2 13.103 2 12V10.5C2 10.2238 2.22386 9.99997 2.5 9.99997Z"
-                fill="currentColor"
-                fill-rule="evenodd"
-                clip-rule="evenodd"></path>
-            </svg>
-            <CldUploadButton
-              onUpload={(result: UploadResult) =>
-                setImagesId((prev) => [...prev, result.info.public_id])
-              }
-              uploadPreset="dbt8rggf"
-            />
-          </div>
-        </Button>
+      <div className="flex-col flex justify-between">
+        <div className="flex justify-between pb-6">
+          <h1 className="font-bold text-4xl">Gallery</h1>
+          <UploadButton />
+        </div>
+        <div className="flex flex-wrap space-x-4 pb-4">
+          {result.resources.map((image) => <CloudImage publicId={image.public_id} {...image} />)}
+        </div>
       </div>
     </section>
   );
