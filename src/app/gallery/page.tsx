@@ -15,8 +15,6 @@ const Gallery = async () => {
     .max_results(10)
     .execute()) as { resources: SearchResult[] };
 
-  console.log(result);
-
   return (
     <section className="h-full px-4 py-6 lg:px-8">
       <div className="flex-col flex justify-between">

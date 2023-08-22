@@ -1,8 +1,4 @@
-
-type SearchResult = {
-  public_id: string;
-  tags: [];
-};
+import { SearchResult } from "@/types/types";
 
 const Grid = ({ images, getImageComponent }: { images: SearchResult[], getImageComponent: (image: SearchResult) => React.ReactNode }) => {
   function getColumn(colIndex: number) {

@@ -4,12 +4,9 @@ import { CldImage } from "next-cloudinary";
 import { useEffect, useState, useTransition } from "react";
 import { MarkAsFavoriteAction } from "./actions";
 import { ImageMenu } from "@/components/image-menu";
+import { ICloudImage } from "@/types/types";
 
-interface ICloudImage {
-  publicId: string;
-  tags: string[];
-  onUnheart?: (public_id: string) => void
-}
+
 
 const CloudImage = ({ publicId, tags, onUnheart }: ICloudImage) => {
   const [transition, setTransition] = useTransition();
@@ -49,7 +46,7 @@ const CloudImage = ({ publicId, tags, onUnheart }: ICloudImage) => {
           className="absolute top-2 left-2 hover:text-red-400 cursor-pointer transition-colors scale-150"
         />
       )}
-      <ImageMenu />
+      <ImageMenu public_id={publicId} tags={tags} />
     </div>
   );
 };

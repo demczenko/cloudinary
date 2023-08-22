@@ -1,12 +1,8 @@
-"use client"
+"use client";
 
 import Grid from "@/components/grid";
 import CloudImage from "./cloud-image";
-
-type SearchResult = {
-  public_id: string;
-  tags: [];
-};
+import { SearchResult } from "@/types/types";
 
 const GalleryGid = ({ images }: { images: SearchResult[] }) => {
   return (

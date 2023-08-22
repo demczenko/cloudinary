@@ -15,10 +15,12 @@ import {
 } from "@/components/ui/dropdown-menu";
 import HamburgerMenu from "./svgs/HamburgerMenu";
 import { Albums } from "./svgs";
+import { AlbumDialog } from "./add-to-album";
+import { SearchResult } from "@/types/types";
 
 type Checked = DropdownMenuCheckboxItemProps["checked"];
 
-export function ImageMenu() {
+export function ImageMenu({ public_id, tags }: SearchResult) {
   const [showStatusBar, setShowStatusBar] = React.useState<Checked>(true);
   const [showActivityBar, setShowActivityBar] = React.useState<Checked>(false);
   const [showPanel, setShowPanel] = React.useState<Checked>(false);
@@ -32,12 +34,7 @@ export function ImageMenu() {
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent className="w-fit">
-          <DropdownMenuItem>
-            <Button variant="outline" className="p-0">
-              <Albums />
-              Add to album
-            </Button>
-          </DropdownMenuItem>
+          <AlbumDialog public_id={public_id} tags={tags} />
         </DropdownMenuContent>
       </DropdownMenu>
     </div>
