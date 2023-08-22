@@ -11,7 +11,7 @@ const Heart = (props: Props) => {
       {props.fill ? (
         <svg
           onClick={props.onClick}
-          className="mr-2 h-4 w-4"
+          className="ml-2 h-4 w-4"
           width="15"
           height="15"
           viewBox="0 0 15 15"
@@ -27,7 +27,7 @@ const Heart = (props: Props) => {
         <svg
           fill={"white"}
           onClick={props.onClick}
-          className="mr-2 h-4 w-4"
+          className="ml-2 h-4 w-4"
           width="15"
           height="15"
           viewBox="0 0 15 15"

@@ -1,12 +1,21 @@
 "use client";
 import { Heart } from "@/components/svgs";
 import { CldImage } from "next-cloudinary";
-import { useTransition } from "react";
+import { useEffect, useState, useTransition } from "react";
 import { MarkAsFavoriteAction } from "./actions";
+import { ImageMenu } from "@/components/image-menu";
 
-const CloudImage = ({ publicId, tags, path }: { publicId: string; tags: string[]; path: string }) => {
+interface ICloudImage {
+  publicId: string;
+  tags: string[];
+  onUnheart?: (public_id: string) => void
+}
+
+const CloudImage = ({ publicId, tags, onUnheart }: ICloudImage) => {
   const [transition, setTransition] = useTransition();
-  const isFavorite = tags.includes("favorite")
+  const [isFavorited, setIsFavorited] = useState(tags.includes("favorite"));
+
+  console.log(tags.includes("favorite"));
 
   return (
     <div className="space-y-2 w-[250px] relative">
@@ -17,26 +26,30 @@ const CloudImage = ({ publicId, tags, path }: { publicId: string; tags: string[]
         sizes="100vw"
         alt="Description of my image"
       />
-      {isFavorite ? (
+      {isFavorited ? (
         <Heart
           fill="white"
-          onClick={() =>
+          onClick={() => {
+            onUnheart && onUnheart(publicId);
+            setIsFavorited(false);
             setTransition(() => {
-              MarkAsFavoriteAction(publicId, false, path);
-            })
-          }
-          className="absolute top-2 right-2 hover:text-red-400 cursor-pointer transition-colors scale-150"
+              MarkAsFavoriteAction(publicId, false);
+            });
+          }}
+          className="absolute top-2 left-2 hover:text-red-400 cursor-pointer transition-colors scale-150"
         />
       ) : (
         <Heart
-          onClick={() =>
+          onClick={() => {
+            setIsFavorited(true);
             setTransition(() => {
-              MarkAsFavoriteAction(publicId, true, path);
-            })
-          }
-          className="absolute top-2 right-2 hover:text-red-400 cursor-pointer transition-colors scale-150"
+              MarkAsFavoriteAction(publicId, true);
+            });
+          }}
+          className="absolute top-2 left-2 hover:text-red-400 cursor-pointer transition-colors scale-150"
         />
       )}
+      <ImageMenu />
     </div>
   );
 };

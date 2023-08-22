@@ -3,7 +3,7 @@ import cloudinary from 'cloudinary'
 import { revalidatePath } from 'next/cache'
 
 
-export async function MarkAsFavoriteAction(publicId: string, isFavorite: boolean, path: string) {
+export async function MarkAsFavoriteAction(publicId: string, isFavorite: boolean) {
   console.log('test')
 
   if (isFavorite) {
@@ -12,6 +12,4 @@ export async function MarkAsFavoriteAction(publicId: string, isFavorite: boolean
     await cloudinary.v2.uploader.remove_tag("favorite", [publicId])
   }
 
-  await new Promise(resolve => setTimeout(resolve, 2000))
-  revalidatePath(path)
 }

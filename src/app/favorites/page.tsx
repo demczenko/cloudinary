@@ -1,6 +1,6 @@
 import ForceRefresh from "@/components/force";
-import CloudImage from "../gallery/cloud-image";
 import cloudinary from "cloudinary";
+import FavoritesList from "./favorites-list";
 
 type SearchResult = {
   public_id: string;
@@ -24,9 +24,7 @@ const Favorites = async () => {
         <div className="flex justify-between pb-6">
           <h1 className="font-bold text-4xl">Favorites</h1>
         </div>
-        <div className="flex flex-wrap space-x-4 pb-4">
-          {result.resources.map((image) => <CloudImage path="/favorites" tags={image.tags} publicId={image.public_id} />)}
-        </div>
+        <FavoritesList result={result} />
       </div>
     </section>
   );

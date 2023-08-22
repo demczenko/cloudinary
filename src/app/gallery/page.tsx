@@ -1,18 +1,18 @@
-import CloudImage from "./cloud-image";
 import UploadButton from "./upload-button";
 import cloudinary from "cloudinary";
+import GalleryGid from "./gallery-grid";
 
 type SearchResult = {
   public_id: string;
-  tags: []
+  tags: [];
 };
 
 const Gallery = async () => {
   const result = (await cloudinary.v2.search
     .expression("resource_type:image")
     .sort_by("created_at", "desc")
-    .with_field('tags')
-    .max_results(5)
+    .with_field("tags")
+    .max_results(10)
     .execute()) as { resources: SearchResult[] };
 
   console.log(result);
@@ -24,9 +24,8 @@ const Gallery = async () => {
           <h1 className="font-bold text-4xl">Gallery</h1>
           <UploadButton />
         </div>
-        <div className="flex flex-wrap space-x-4 pb-4">
-          {result.resources.map((image) => <CloudImage path="/gallery" tags={image.tags} publicId={image.public_id} />)}
-        </div>
+
+        <GalleryGid images={result.resources} />
       </div>
     </section>
   );
